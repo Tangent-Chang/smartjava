@@ -1,8 +1,8 @@
 package lab2.Model;
 
 /**
- * Created by YHWH on 5/25/15.
+ * Created by Tangent Chang on 5/25/15.
  */
-interface Output {
-    public void printResult();
+public interface Output {
+    public abstract void printResult();
 }

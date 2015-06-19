@@ -11,9 +11,9 @@ import java.util.StringTokenizer;
 /**
  * Created by Tangent Chang on 5/21/15.
  */
-public class Util {
+public class Util{
 
-    public static Student[] readFile(String filename, Student[] stu) throws CustomException {
+    public static Student[] readData(String filename, Student[] stu) throws CustomException {
 
         try {
             FileReader file = new FileReader(filename);
@@ -28,7 +28,7 @@ public class Util {
                 }
                 else {
                     if(sNum < 40){
-                        stu[sNum] = accessScores(line);
+                        stu[sNum] = pulloutScores(line);
                         sNum++;
                     }
                     else{
@@ -45,7 +45,7 @@ public class Util {
         return stu;
     }
 
-    static public Student accessScores(String line){
+    static public Student pulloutScores(String line){
         StringTokenizer st = new StringTokenizer(line);
         Student a = new Student(Integer.parseInt(st.nextToken()));
         int[] scores = new int[5];
@@ -57,4 +57,9 @@ public class Util {
         a.setScores(scores);
         return a;
     }
+
+    public static Student[] readData(Student[] test, Student[] stu) throws CustomException{
+        return stu;
+    }
+
 }

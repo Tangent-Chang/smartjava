@@ -3,7 +3,7 @@ package lab2.Model;
 /**
  * Created by Tangent Chang on 5/21/15.
  */
-public class Statistics implements Output{
+public class Statistics implements Output {
     private int[] lowScores = new int[5];
     private int[] highScores = new int[5];
     private float[] avgScores = new float[5];

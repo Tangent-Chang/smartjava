@@ -11,9 +11,10 @@ import lab2.Util.Util;
 public class Run {
     public static void main(String [] args) {
         Student lab2 [] = new Student[40]; //Populate the student array
+        Util util = new Util();
 
         try{
-            lab2 = Util.readFile("student_scores.txt", lab2);
+            lab2 = util.readData("student_scores.txt", lab2);
             Statistics statlab2 = new Statistics();
             statlab2.findHigh(lab2);
             statlab2.findLow(lab2);
