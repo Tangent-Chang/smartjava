@@ -9,16 +9,17 @@ public class Automobile implements Serializable{
     private String name;
     private OptionSet optSets[];
     private float basePrice;
+    private int setsSize = 5;
 
     public Automobile(){}
     public Automobile(String n){
         name = n;
-        optSets = new OptionSet[5];
+        optSets = new OptionSet[setsSize];
     }
     public Automobile(String n, float price){
         name = n;
         basePrice = price;
-        optSets = new OptionSet[5];
+        optSets = new OptionSet[setsSize];
     }
 
     public String getName(){return name;}
@@ -67,7 +68,7 @@ public class Automobile implements Serializable{
     }
 
     public void deleteOptset(int setIndex){
-        for(int j=setIndex; j<optSets.length; j++){
+        for(int j=setIndex; j<optSets.length-1; j++){
             optSets[j] = optSets[j+1];
         }
         optSets[optSets.length-1] = null;
@@ -76,11 +77,12 @@ public class Automobile implements Serializable{
         optSets[setIndex].deleteOpt(optIndex);
     }
 
-    public void updateOption(int i, int j, String optName, float p){
-        optSets[i].updateOpt(j, optName, p);
+    public void updateOption(int setIndex, int optIndex, String optName, float p){
+        optSets[setIndex].updateOpt(optIndex, optName, p);
     }
-    public void updateOptset(int i, String[] names, float[] prices){
-        optSets[i].updateOpts(names, prices);
+    public void updateOptset(int setIndex, String setName, String[] names, float[] prices){
+        optSets[setIndex].setName(setName);
+        optSets[setIndex].updateOpts(names, prices);
     }
 
     public void print(){

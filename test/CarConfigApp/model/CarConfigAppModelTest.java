@@ -32,9 +32,9 @@ public class CarConfigAppModelTest {
     @Test
     public void initializeOneOptsetTest(){
         model.setOptset(0, "Color", 2);
-        int i = model.findOptsetByName("Color");
         String[] names = {"Red", "Blue"};
         float[] prices = {100, 100};
+        int i = model.findOptsetByName("Color");
         model.setOptions(i,names,prices);
 
         assertEquals("Color", model.getOptset(i).getName());
@@ -61,5 +61,75 @@ public class CarConfigAppModelTest {
         assertEquals(595, model.getOptset(4).getOpt(1).getPrice(), delta);
     }
 
+    @Test
+    public void findOptionByNameTest(){
+        model.setOptset(0, "Color", 5);
+        String[] names = {"Red", "Blue", "White", "Black", "Yellow"};
+        float[] prices = {0, 0, 0, 0, 0};
+        int i = model.findOptsetByName("Color");
+        model.setOptions(i,names,prices);
 
+        assertEquals(2, model.getOptset(0).findOptByName("White"));
+    }
+
+    @Test
+    public void deleteOptsetTest(){
+        String[] setNames = {"Side impact air bags", "Power moonroof"};
+        int[] optSizes = {2, 2};
+        model.setOptsets(3, setNames, optSizes);
+
+        int count1 = 0;
+        for(int i=0; i<model.getOptsets().length; i++){
+            if(model.getOptsets()[i]!=null){ count1++;}
+        }
+        assertTrue(count1==2);
+
+        model.deleteOptset(3);
+
+        int count2 = 0;
+        for(int i=0; i<model.getOptsets().length; i++){
+            if(model.getOptsets()[i]!=null){ count2++;}
+        }
+        assertTrue(count2==1);
+
+    }
+    @Test
+    public void deleteOptionTest(){
+        model.setOptset(0, "Color", 5);
+        String[] names = {"Red", "Blue", "White", "Black", "Yellow"};
+        float[] prices = {0, 0, 0, 0, 0};
+        model.setOptions(0,names,prices);
+        assertTrue(model.getOptset(0).getOpts().length==5);
+
+        model.deleteOption(0,4);
+        int count = 0;
+        for(int i=0; i<model.getOptset(0).getOpts().length; i++){
+            if(model.getOptset(0).getOpts()[i]!=null){ count++;}
+        }
+        assertTrue(count==4);
+    }
+    @Test
+    public void updateOptionTest(){
+        model.setOptset(0, "Color", 2);
+        String[] names = {"Red", "Blue"};
+        float[] prices = {100, 100};
+        model.setOptions(0,names,prices);
+        model.updateOption(0, 0, "White", 50);
+
+        assertEquals("White", model.getOptset(0).getOpt(0).getName());
+    }
+    @Test
+    public void updateOptsetTest(){
+        model.setOptset(0, "Color", 2);
+        String[] names = {"Red", "Blue"};
+        float[] prices = {100, 100};
+        model.setOptions(0,names,prices);
+
+        String[] names2 = {"White", "Black"};
+        float[] prices2 = {30, 30};
+        model.updateOptset(0, "colors", names2, prices2);
+
+        assertEquals(30, model.getOptset(0).getOpt(0).getPrice(), delta);
+        assertEquals("colors", model.getOptset(0).getName());
+    }
 }

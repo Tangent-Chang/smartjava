@@ -48,7 +48,7 @@ class OptionSet implements Serializable{
     }
 
     protected void deleteOpt(int i){
-        for(int j=i; j<opts.length; j++){
+        for(int j=i; j<opts.length-1; j++){
             opts[j] = opts[j+1];
         }
         opts[opts.length-1] = null;
