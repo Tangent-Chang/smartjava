@@ -63,8 +63,8 @@ public class Automobile implements Serializable{
     }
     //get the index of option
     public int findOptionByName(int setIndex, String optName){
-        optSets[setIndex].findOptByName(optName);
-        return -1;
+        int i = optSets[setIndex].findOptByName(optName);
+        return i;
     }
 
     public void deleteOptset(int setIndex){
@@ -77,8 +77,17 @@ public class Automobile implements Serializable{
         optSets[setIndex].deleteOpt(optIndex);
     }
 
+    public void updateOption(String optsetName, String optName, float p){
+        int i = findOptsetByName(optsetName);
+        int j = findOptionByName(i, optName);
+        optSets[i].updateOpt(j, optName, p);
+    }
     public void updateOption(int setIndex, int optIndex, String optName, float p){
         optSets[setIndex].updateOpt(optIndex, optName, p);
+    }
+    public void updateOptset(String setName, String newName){
+        int i = findOptsetByName(setName);
+        optSets[i].setName(newName);
     }
     public void updateOptset(int setIndex, String setName, String[] names, float[] prices){
         optSets[setIndex].setName(setName);

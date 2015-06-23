@@ -1,4 +1,5 @@
 package CarConfigApp.model;
+import CarConfigApp.exception.AutoException;
 import CarConfigApp.util.FileIO;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -13,12 +14,16 @@ public class CarConfigAppModelTest {
 
     @Test
     public void automobilePrintTest(){
-        FileIO file = new FileIO();
-        Automobile FW = file.buildAutoObject("car1.txt");
-        FW.print();
-        file.serializeAuto(FW);
-        Automobile newFW = file.deserializeAuto();
-        newFW.print();
+        try{
+            Automobile FW = FileIO.buildAutoObject("car1.txt");
+            FW.print();
+            FileIO.serializeAuto(FW);
+            Automobile newFW = FileIO.deserializeAuto();
+            newFW.print();
+        }
+        catch (AutoException e){
+            e.printException();
+        }
     }
 
     @Test

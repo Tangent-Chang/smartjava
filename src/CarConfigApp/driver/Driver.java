@@ -1,5 +1,7 @@
 package CarConfigApp.driver;
 
+import CarConfigApp.adapter.BuildAuto;
+import CarConfigApp.exception.AutoException;
 import CarConfigApp.model.Automobile;
 
 /**
@@ -7,15 +9,12 @@ import CarConfigApp.model.Automobile;
  */
 public class Driver {
 
-        /*public static void main(String [] args) {
-//Build Automobile Object from a file.
-            Automobile FordZTW = (Some instance method in a class of Util package).readFile("FordZTW.txt");
-//Print attributes before serialization
-            FordZTW.print();
-//Serialize the object
-            Lab1.autoutil.FileIO.serializeAuto(FordZTW);
-//Deserialize the object and read it into memory.
-            Automobile newFordZTW = Lab1.autoutil.FileIO.DeserializeAuto("auto.ser"); //Print new attributes.
-            newFordZTW.print();
-        }*/
+        public static void main(String [] args) {
+            BuildAuto testDriver = new BuildAuto();
+
+            testDriver.buildAuto("car2.txt");
+            //testDriver.updateOptionPrice("haha", "Color", "Infra-Red Clearcoat", 100);
+            //testDriver.updateOptionSetName("haha", "Color", "Color choice");
+            //testDriver.printAuto("haha");
+        }
 }

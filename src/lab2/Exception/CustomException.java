@@ -12,22 +12,22 @@ public class CustomException extends Exception{
         printException();
     }
 
-    public CustomException(int errorno){
+    public CustomException(int errorNo){
         super();
-        errorNo = errorno;
+        this.errorNo = errorNo;
         printException();
     }
 
-    public CustomException(String errormsg){
+    public CustomException(String errorMsg){
         super();
-        errorMsg = errormsg;
+        this.errorMsg = errorMsg;
         printException();
     }
 
-    public CustomException(int errorno, String errormsg){
+    public CustomException(int errorNo, String errorMsg){
         super();
-        errorNo = errorno;
-        errorMsg = errormsg;
+        this.errorNo = errorNo;
+        this.errorMsg = errorMsg;
         printException();
     }
 
