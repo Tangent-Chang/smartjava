@@ -6,24 +6,27 @@ import java.io.Serializable;
  * Created by Tangent Chang on 6/14/15.
  */
 public class Automobile implements Serializable{
-    private String name;
+    //private String make;
+    private String modelName;
     private OptionSet optSets[];
     private float basePrice;
     private int setsSize = 5;
 
-    public Automobile(){}
+    public Automobile(){
+        optSets = new OptionSet[setsSize];
+    }
     public Automobile(String n){
-        name = n;
+        modelName = n;
         optSets = new OptionSet[setsSize];
     }
     public Automobile(String n, float price){
-        name = n;
+        modelName = n;
         basePrice = price;
         optSets = new OptionSet[setsSize];
     }
 
-    public String getName(){return name;}
-    public void setName(String n){ name = n;}
+    public String getName(){return modelName;}
+    public void setName(String n){ modelName = n;}
     public float getBasePrice(){return basePrice;}
     public void setBasePrice(float p){ basePrice = p;}
 
@@ -95,7 +98,7 @@ public class Automobile implements Serializable{
     }
 
     public void print(){
-        System.out.format("Name: %s %nBase Price: %f %nSets quantity: %d %n", name, basePrice, optSets.length);
+        System.out.format("Name: %s %nBase Price: %f %nSets quantity: %d %n", modelName, basePrice, optSets.length);
         for(int i=0; i<optSets.length; i++){
             System.out.print(optSets[i].getName()+"\n");
             for(int j=0; j<optSets[i].getOpts().length; j++){

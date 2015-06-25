@@ -15,6 +15,6 @@ public class Driver {
             testDriver.buildAuto("car2.txt");
             //testDriver.updateOptionPrice("haha", "Color", "Infra-Red Clearcoat", 100);
             //testDriver.updateOptionSetName("haha", "Color", "Color choice");
-            //testDriver.printAuto("haha");
+            testDriver.printAuto("haha");
         }
 }

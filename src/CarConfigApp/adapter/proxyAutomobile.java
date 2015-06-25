@@ -18,6 +18,7 @@ public abstract class ProxyAutomobile {
         }
         catch (AutoException e){
             e.printException();
+            e.writeException();
         }
     }
     public void printAuto(String modelName){
@@ -28,5 +29,9 @@ public abstract class ProxyAutomobile {
     }
     public void updateOptionPrice(String modelName, String setName, String optName, float newPrice){
         autoObj.updateOption(setName, optName, newPrice);
+    }
+    public void fixException(int errorNo){
+        AutoException e = new AutoException();
+        e.fix(errorNo, autoObj);
     }
 }

@@ -14,7 +14,7 @@ import java.text.ParseException;
  */
 public class FileIO {
     public static Automobile buildAutoObject(String fileName) throws AutoException{
-        Automobile model = null;
+        Automobile model = new Automobile();
         try{
             FileReader file = new FileReader(fileName);
             BufferedReader buff = new BufferedReader(file);
@@ -23,22 +23,15 @@ public class FileIO {
             String line;
             for(int i=0; i<2; i++){
                 line = buff.readLine();
-                if(line != null){
+                if(line == null){eof = true;}
+                else{
                     String[] array = line.split(": ");
-                    switch(i){
-                        case 0:
-                            if(array.length==1){
-                                throw new AutoException(ModelError.MISSING_MODEL_NAME);
+                    try{
+                        if(array.length == 2){
+                            if(i == 0){
+                                model.setName(array[1]);
                             }
-                            else{
-                                model = new Automobile(array[1]);
-                            }
-                            break;
-                        case 1:
-                            if(array.length==1){
-                                throw new AutoException(ModelError.MISSING_MODEL_PRICE);
-                            }
-                            else{
+                            else if(i == 1){
                                 try {
                                     float basePrice = NumberFormat.getNumberInstance(java.util.Locale.US).parse(array[1]).floatValue();
                                     model.setBasePrice(basePrice);
@@ -46,10 +39,16 @@ public class FileIO {
                                     e.printStackTrace();
                                 }
                             }
-                            break;
+                        }
+                        else{
+                            if(i == 0){ throw new AutoException(ModelError.MISSING_MODEL_NAME);}
+                            else if(i == 1){ throw new AutoException(ModelError.MISSING_MODEL_PRICE);}
+                        }
+                    }
+                    catch(AutoException e){
+                        e.fix(e.getErrorCode().getNumber(), model);
                     }
                 }
-                else{ eof = true;}
             }
 
             int i = 0; //number of line
@@ -60,28 +59,30 @@ public class FileIO {
                 }
                 else{
                     String[] optionSet = line.split(": "); //setName + options
-                    if(optionSet.length<2 || optionSet[0].isEmpty() || optionSet[1].isEmpty()){
-                        throw new AutoException(ModelError.MISSING_OPTIONSET_DATA);
-                    }
-                    else{
-                        String[] options = optionSet[1].split("; "); //(optionName + price)*n
-                        model.setOptset(i, optionSet[0],options.length);
-                        for( int j=0; j<options.length; j++){
-                            String[] option = options[j].split(", "); //optionName + price
-                            if(option.length<2){
-                                throw new AutoException(ModelError.MISSING_OPTION_DATA);
-                            }
-                            else{
-                                try {
-                                    float price = NumberFormat.getNumberInstance(java.util.Locale.US).parse(option[1]).floatValue();
-                                    model.setOption(i,j,option[0],price);
+                    try {
+                        if (optionSet.length != 2 || optionSet[0].isEmpty() || optionSet[1].isEmpty()) {
+                            throw new AutoException(ModelError.MISSING_OPTIONSET_DATA);
+                        } else {
+                            String[] options = optionSet[1].split("; "); //(optionName + price)*n
+                            model.setOptset(i, optionSet[0], options.length);
+                            for (int j = 0; j < options.length; j++) {
+                                String[] option = options[j].split(", "); //optionName + price
+                                if (option.length < 2) {
+                                    throw new AutoException(ModelError.MISSING_OPTION_DATA);
+                                } else {
+                                    try {
+                                        float price = NumberFormat.getNumberInstance(java.util.Locale.US).parse(option[1]).floatValue();
+                                        model.setOption(i, j, option[0], price);
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                                catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                            }
 
+                            }
                         }
+                    }
+                    catch(AutoException e){
+                        e.fix(e.getErrorCode().getNumber(), model);
                     }
 
                 }
