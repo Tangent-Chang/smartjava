@@ -1,87 +1,80 @@
 package CarConfigApp.model;
 
-import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Tangent Chang on 6/14/15.
  */
 class OptionSet implements Serializable{
 
-    private Option opts [];
+    private List<Option> options;
     private String name;
 
-    protected OptionSet(){}
-    protected OptionSet(String n, int size){
+    //protected OptionSet(){}
+    protected OptionSet(String n){
         name = n;
-        opts = new Option[size];
+        options = new ArrayList<Option>();
     }
-    protected OptionSet(String n, int size, Option[] options){
-        opts = new Option[size];
-        for(int i = 0; i<opts.length;i++){
-            opts[i] = new Option(options[i].getName(), options[i].getPrice());
+    /*protected OptionSet(String n, String[] names, float[] prices){
+        name = n;
+        options = new ArrayList<Option>();
+        for(int i = 0; i < names.length; i++) {
+            options.add(new Option(names[i], prices[i]));
         }
-        name = n;
-    }
+    }*/
 
     protected String getName(){return name;}
     protected void setName(String n){ name = n;}
-    protected Option[] getOpts(){return opts;}
+
+    protected List<Option> getOptions(){return options;}
     //protected void setOpts(int size){ opts = new Option[size];}
-    protected void setOpts(String[] names, float[] prices){
+    /*protected void setOpts(String[] names, float[] prices){
         for(int i=0; i<names.length; i++){
-            opts[i] = new Option(names[i], prices[i]);
+            options[i] = new Option(names[i], prices[i]);
         }
-    }
-    protected Option getOpt(int i){return opts[i];}
-    protected void setOpt(int i, String n, float p){
-        opts[i] = new Option();
-        opts[i].setName(n);
-        opts[i].setPrice(p);
+    }*/
+    protected Option getOption(int i){return options.get(i);}
+    protected void setOption(String n, float p){
+        options.add(new Option(n, p));
     }
 
-    protected int findOptByName(String n){
-        for(int i=0;i<opts.length;i++){
-            if(opts[i].getName().equals(n)){return i;}
+    protected int findOptionByName(String n){
+        for(int i=0;i<options.size();i++){
+            if(options.get(i).getName().equals(n)){return i;}
         }
         return -1;
     }
 
-    protected void deleteOpt(int i){
-        for(int j=i; j<opts.length-1; j++){
-            opts[j] = opts[j+1];
-        }
-        opts[opts.length-1] = null;
+    protected void deleteOption(int i){
+        options.remove(i);
     }
-    protected void deleteOpt(String optName){
-        int i = findOptByName(optName);
-        for(int j=i; j<opts.length; j++){
-            opts[j] = opts[j+1];
-        }
-        opts[opts.length-1] = null;
+    protected void deleteOption(String optName){
+        int i = findOptionByName(optName);
+        options.remove(i);
     }
 
-    protected void updateOpt(int i, String n, float p){
-        opts[i].setName(n);
-        opts[i].setPrice(p);
+    protected void updateOption(int i, String n, float p){
+        options.get(i).setName(n);
+        options.get(i).setPrice(p);
     }
-    protected void updateOpt(String optName, String n, float p){
-        int i = findOptByName(optName);
-        opts[i].setName(n);
-        opts[i].setPrice(p);
+    protected void updateOption(String optName, String n, float p){
+        int i = findOptionByName(optName);
+        options.get(i).setName(n);
+        options.get(i).setPrice(p);
     }
-    protected void updateOpts(String[] names, float[] prices){
+    /*protected void updateOptions(String[] names, float[] prices){
         for(int i=0; i<names.length; i++){
-            opts[i].setName(names[i]);
-            opts[i].setPrice(prices[i]);
+            options.get(i).setName(names[i]);
+            options.get(i).setPrice(prices[i]);
         }
-    }
+    }*/
 
     class Option implements Serializable{
         private String name; //this is value too. e.g. red
         private float price;
 
-        protected Option(){}
         protected Option(String n, float p){
             name = n;
             price = p;

@@ -25,7 +25,7 @@ public abstract class ProxyAutomobile {
         autoObj.print();
     }
     public void updateOptionSetName(String modelName, String setName, String newName){
-        autoObj.updateOptset(setName, newName);
+        autoObj.updateOptionset(setName, newName);
     }
     public void updateOptionPrice(String modelName, String setName, String optName, float newPrice){
         autoObj.updateOption(setName, optName, newPrice);

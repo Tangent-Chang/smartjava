@@ -64,7 +64,7 @@ public class FileIO {
                             throw new AutoException(ModelError.MISSING_OPTIONSET_DATA);
                         } else {
                             String[] options = optionSet[1].split("; "); //(optionName + price)*n
-                            model.setOptset(i, optionSet[0], options.length);
+                            model.setOptionset(optionSet[0]);
                             for (int j = 0; j < options.length; j++) {
                                 String[] option = options[j].split(", "); //optionName + price
                                 if (option.length < 2) {
@@ -72,7 +72,7 @@ public class FileIO {
                                 } else {
                                     try {
                                         float price = NumberFormat.getNumberInstance(java.util.Locale.US).parse(option[1]).floatValue();
-                                        model.setOption(i, j, option[0], price);
+                                        model.setOption(i, option[0], price);
                                     } catch (ParseException e) {
                                         e.printStackTrace();
                                     }
