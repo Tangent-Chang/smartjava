@@ -12,11 +12,11 @@ public class Automobile implements Serializable{
     private String modelName;
     private float basePrice;
     private List<OptionSet> optionsets;
-
-    //private int setsSize = 5;
+    private List<OptionSet.Option> choices;
 
     public Automobile(){
         optionsets = new ArrayList<OptionSet>();
+        choices = new ArrayList<OptionSet.Option>();
     }
     /*public Automobile(String n){
         modelName = n;
@@ -32,6 +32,8 @@ public class Automobile implements Serializable{
     public void setMaker(String make) {maker = make;}
     public String getName(){return modelName;}
     public void setName(String n){ modelName = n;}
+    public String getModel(){return modelName;}
+    public void setModel(String n){ modelName = n;}
     public float getBasePrice(){return basePrice;}
     public void setBasePrice(float p){ basePrice = p;}
 
@@ -53,10 +55,34 @@ public class Automobile implements Serializable{
         //optSets[i] = new OptionSet(setName);
         optionsets.get(setIndex).setOption(optName,optPrice);
     }
+    public void setOption(String setName, String optName, float optPrice){
+        optionsets.get(findOptionsetByName(setName)).setOption(optName, optPrice);
+    }
     /*public void setOptions(int setIndex, String[] optNames, float[] optPrices){
         //optSets[i] = new OptionSet(n, optNames.length);
         optSets[setIndex].setOpts(optNames, optPrices);
     }*/
+
+    public String getChoice(String setName){
+        int i = findOptionsetByName(setName);
+        return choices.get(i).getName();
+    }
+    public void setChoice(String setName, String optName){
+        int i = findOptionsetByName(setName);
+        int j = findOptionByName(i,optName);
+        choices.add(i, optionsets.get(i).getOption(j));
+    }
+    public float getChoicePrice(String setName){
+        int i = findOptionsetByName(setName);
+        return choices.get(i).getPrice();
+    }
+    public float getTotalPrice(){
+        float sum = basePrice;
+        for(int i = 0; i< choices.size(); i++){
+            sum = sum + choices.get(i).getPrice();
+        }
+        return sum;
+    }
 
     //get the index of optionset
     public int findOptionsetByName(String optsetName){

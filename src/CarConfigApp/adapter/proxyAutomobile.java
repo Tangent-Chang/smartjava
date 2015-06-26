@@ -10,11 +10,13 @@ import CarConfigApp.util.FileIO;
  * Created by Tangent Chang on 6/20/15.
  */
 public abstract class ProxyAutomobile {
-    private static Automobile autoObj;
+    private static Fleet fleetObj = new Fleet();
 
     public void buildAuto(String fileName){
+        Automobile autoObj;
         try {
             autoObj = FileIO.buildAutoObject(fileName);
+            fleetObj.setAuto(autoObj.getModel(), autoObj);
         }
         catch (AutoException e){
             e.printException();
@@ -22,16 +24,16 @@ public abstract class ProxyAutomobile {
         }
     }
     public void printAuto(String modelName){
-        autoObj.print();
+        fleetObj.getAuto(modelName).print();
     }
     public void updateOptionSetName(String modelName, String setName, String newName){
-        autoObj.updateOptionset(setName, newName);
+        fleetObj.getAuto(modelName).updateOptionset(setName, newName);
     }
     public void updateOptionPrice(String modelName, String setName, String optName, float newPrice){
-        autoObj.updateOption(setName, optName, newPrice);
+        fleetObj.getAuto(modelName).updateOption(setName, optName, newPrice);
     }
     public void fixException(int errorNo){
         AutoException e = new AutoException();
-        e.fix(errorNo, autoObj);
+        //e.fix(errorNo, fleetObj.getAuto(modelName));
     }
 }

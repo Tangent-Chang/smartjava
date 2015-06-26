@@ -8,7 +8,6 @@ import static org.junit.Assert.*;
  * Created by Tangent Chang on 6/14/15.
  */
 public class CarConfigAppModelTest {
-
     Automobile model = new Automobile();
     float delta = 0;
 
@@ -123,5 +122,40 @@ public class CarConfigAppModelTest {
         model.setOptionset("Color");
         model.updateOptionset("Color", "new color");
         assertEquals("new color", model.getOptionset(model.findOptionsetByName("new color")).getName());
+    }
+    @Test
+    public void setChoicesTest(){
+        try{
+            model = FileIO.buildAutoObject("car1.txt");
+        }
+        catch (AutoException e){
+            e.printException();
+        }
+
+        model.setChoice("Color","Fort Knox Gold Clearcoat Metallic");
+        model.setChoice("Transmission", "automatic");
+        model.setChoice("Brakes/traction control", "ABS");
+        model.setChoice("Side impact air bags", "selected");
+        model.setChoice("Power moonroof", "selected");
+
+        assertEquals("automatic", model.getChoice("Transmission"));
+        assertEquals(595, model.getChoicePrice("Power moonroof"), delta);
+    }
+    @Test
+    public void getTotalPriceTest(){
+        try{
+            model = FileIO.buildAutoObject("car1.txt");
+        }
+        catch (AutoException e){
+            e.printException();
+        }
+
+        model.setChoice("Color","Fort Knox Gold Clearcoat Metallic");
+        model.setChoice("Transmission", "automatic");
+        model.setChoice("Brakes/traction control", "ABS");
+        model.setChoice("Side impact air bags", "selected");
+        model.setChoice("Power moonroof", "selected");
+
+        System.out.println(model.getTotalPrice());
     }
 }

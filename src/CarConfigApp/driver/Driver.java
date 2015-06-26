@@ -11,10 +11,9 @@ public class Driver {
 
         public static void main(String [] args) {
             BuildAuto testDriver = new BuildAuto();
-
             testDriver.buildAuto("car1.txt");
             //testDriver.updateOptionPrice("haha", "Color", "Infra-Red Clearcoat", 100);
             //testDriver.updateOptionSetName("haha", "Color", "Color choice");
-            testDriver.printAuto("haha");
+            testDriver.printAuto("Focus Wagon ZTW");
         }
 }
