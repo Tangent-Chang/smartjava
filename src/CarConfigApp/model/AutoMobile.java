@@ -18,22 +18,13 @@ public class Automobile implements Serializable{
         optionsets = new ArrayList<OptionSet>();
         choices = new ArrayList<OptionSet.Option>();
     }
-    /*public Automobile(String n){
-        modelName = n;
-        optSets = new OptionSet[setsSize];
-    }
-    public Automobile(String n, float price){
-        modelName = n;
-        basePrice = price;
-        optSets = new OptionSet[setsSize];
-    }*/
 
     public String getMaker(){ return maker;}
     public void setMaker(String make) {maker = make;}
-    public String getName(){return modelName;}
-    public void setName(String n){ modelName = n;}
-    public String getModel(){return modelName;}
-    public void setModel(String n){ modelName = n;}
+    public String getModelName(){return modelName;}
+    public void setModelName(String n){ modelName = n;}
+    //public String getModel(){return modelName;}
+    //public void setModel(String n){ modelName = n;}
     public float getBasePrice(){return basePrice;}
     public void setBasePrice(float p){ basePrice = p;}
 
@@ -41,27 +32,18 @@ public class Automobile implements Serializable{
     public void setOptionset(String setName){
         optionsets.add(new OptionSet(setName));
     }
-    /*public void setOptionset(String setName, String[] optNames, float[] optPrices){
-        optionsets.add(new OptionSet(setName, optNames, optPrices));
-    }*/
-    public List<OptionSet> getOptionsets(){ return optionsets;}
-    /*public void setOptionsets(String[] setNames){
-        for(int i=0; i<setNames.length; i++){
-            optionsets.add(new OptionSet(setNames[i]));
-        }
-    }*/
 
-    public void setOption(int setIndex, String optName, float optPrice){
+    public List<OptionSet> getOptionsets(){ return optionsets;}
+
+
+    public synchronized void setOption(int setIndex, String optName, float optPrice){
         //optSets[i] = new OptionSet(setName);
         optionsets.get(setIndex).setOption(optName,optPrice);
     }
-    public void setOption(String setName, String optName, float optPrice){
+    public synchronized void setOption(String setName, String optName, float optPrice){
         optionsets.get(findOptionsetByName(setName)).setOption(optName, optPrice);
     }
-    /*public void setOptions(int setIndex, String[] optNames, float[] optPrices){
-        //optSets[i] = new OptionSet(n, optNames.length);
-        optSets[setIndex].setOpts(optNames, optPrices);
-    }*/
+
 
     public String getChoice(String setName){
         int i = findOptionsetByName(setName);
@@ -101,25 +83,27 @@ public class Automobile implements Serializable{
     public void deleteOptionset(int setIndex){
         optionsets.remove(setIndex);
     }
-    public void deleteOption(int setIndex, int optIndex){
+    public synchronized void deleteOption(int setIndex, int optIndex){
         optionsets.get(setIndex).deleteOption(optIndex);
     }
 
     //only update price
-    public void updateOption(int setIndex, int optIndex, String optName, float p){
-        optionsets.get(setIndex).updateOption(optIndex, optName, p);
+    /*public synchronized void updateOption(int setIndex, int optIndex, float p){
+        optionsets.get(setIndex).updateOption(optIndex, p);
+    }*/
+    public synchronized void updateOption(String optsetName, String optName, String n, float p){
+        System.out.println(Thread.currentThread().getName() + " is running");
+        optionsets.get(findOptionsetByName(optsetName)).updateOption(optName, n, p);
+        notifyAll();
+
     }
     //only update price
-    public void updateOption(String optsetName, String optName, float newPrice){
+    /*public synchronized void updateOption(String optsetName, String optName, float newPrice){
         int i = findOptionsetByName(optsetName);
         int j = findOptionByName(i, optName);
-        optionsets.get(i).updateOption(j, optName, newPrice);
-    }
-
-    /*public void updateOptionset(int setIndex, String setName, String[] names, float[] prices){
-        optionsets[setIndex].setName(setName);
-        optionsets[setIndex].updateOpts(names, prices);
+        optionsets.get(i).updateOption(j, newPrice);
     }*/
+
     public void updateOptionset(String setName, String newName){
         int i = findOptionsetByName(setName);
         optionsets.get(i).setName(newName);

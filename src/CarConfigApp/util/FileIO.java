@@ -29,7 +29,7 @@ public class FileIO {
                     try{
                         if(array.length == 2){
                             if(i == 0){
-                                model.setName(array[1]);
+                                model.setModelName(array[1]);
                             }
                             else if(i == 1){
                                 try {

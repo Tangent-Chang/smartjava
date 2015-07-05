@@ -12,18 +12,18 @@ import java.util.logging.SimpleFormatter;
  * Created by Tangent Chang on 6/21/15.
  */
 public class AutoException extends Exception{
-    private ErrorCode error;
+    private IErrorCode error;
     //private String errorMsg;
 
     public AutoException(){}
-    public AutoException(ErrorCode error){
+    public AutoException(IErrorCode error){
         this.error = error;
     }
 
-    public ErrorCode getErrorCode(){
+    public IErrorCode getErrorCode(){
         return error;
     }
-    public void setErrorCode(ErrorCode error) {
+    public void setErrorCode(IErrorCode error) {
         this.error = error;
     }
     /*public void setErrorMsg(String errorMsg) {
@@ -35,7 +35,7 @@ public class AutoException extends Exception{
 
 
     public void printException(){
-        System.out.println("Automobile Exception [ErrorCode = " + error + ", ErrorNo = " + error.getNumber() + ", ErrorMsg = " + getErrorMsg()+"]");
+        System.out.println("Automobile Exception [IErrorCode = " + error + ", ErrorNo = " + error.getNumber() + ", ErrorMsg = " + getErrorMsg()+"]");
     }
     public void writeException(){
         Logger logger = Logger.getLogger("AutoExceptionLog");
@@ -54,7 +54,7 @@ public class AutoException extends Exception{
             e.printStackTrace();
         }
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
-        String str = " Automobile Exception [ErrorCode = " + error + ", ErrorNo = " + error.getNumber() + ", ErrorMsg = " + getErrorMsg() + "]";
+        String str = " Automobile Exception [IErrorCode = " + error + ", ErrorNo = " + error.getNumber() + ", ErrorMsg = " + getErrorMsg() + "]";
         logger.info(timeStamp + " " + str);
 
     }

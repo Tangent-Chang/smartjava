@@ -27,9 +27,9 @@ public class CarConfigAppModelTest {
 
     @Test
     public void automobileBasicGetSetTest(){
-        model.setName("BMW 3 series");
+        model.setModelName("BMW 3 series");
         model.setBasePrice(36900);
-        assertEquals("BMW 3 series",model.getName());
+        assertEquals("BMW 3 series",model.getModelName());
         assertEquals(36900, model.getBasePrice(),delta);
     }
 
@@ -113,7 +113,7 @@ public class CarConfigAppModelTest {
         model.setOption(i, "Red", 100);
         model.setOption(i, "Blue", 100);
 
-        model.updateOption("Color", "Red", 50);
+        model.updateOption("Color", "Red", "Red", 50);
 
         assertEquals(50, model.getOptionset(i).getOption(0).getPrice(), delta);
     }

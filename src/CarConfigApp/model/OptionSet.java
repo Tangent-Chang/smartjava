@@ -55,10 +55,14 @@ class OptionSet implements Serializable{
         options.remove(i);
     }
 
-    protected void updateOption(int i, String n, float p){
+    /*protected void updateOption(int i, String n){
         options.get(i).setName(n);
-        options.get(i).setPrice(p);
+        //options.get(i).setPrice(p);
     }
+    protected void updateOption(int i, float p){
+        //options.get(i).setName(n);
+        options.get(i).setPrice(p);
+    }*/
     protected void updateOption(String optName, String n, float p){
         int i = findOptionByName(optName);
         options.get(i).setName(n);

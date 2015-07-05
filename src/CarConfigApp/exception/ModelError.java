@@ -1,9 +1,9 @@
 package CarConfigApp.exception;
 
 /**
- * Created by YHWH on 6/22/15.
+ * Created by Tangent Chang on 6/22/15.
  */
-public enum ModelError implements ErrorCode {
+public enum ModelError implements IErrorCode {
 
     MISSING_MODEL_PRICE(101, "no model price"),
     MISSING_OPTIONSET_DATA(103, "lack of some option set data"),

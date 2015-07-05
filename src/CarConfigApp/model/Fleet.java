@@ -18,29 +18,38 @@ public class Fleet {
     public Automobile getAuto(String key){
         return autos.get(key);
     }
-    public void setAuto(String index){
-        autos.put(index, new Automobile());
+    public void setAuto(String key){
+        autos.put(key, new Automobile());
     }
-    public void setAuto(String index, Automobile auto){
-        autos.put(index, auto);
+    public void setAuto(String key, Automobile auto){
+        autos.put(key, auto);
     }
 
-    public void updateAuto(String index, String maker, String modelName, float price){
-        autos.get(index).setMaker(maker);
-        autos.get(index).setModel(modelName);
-        autos.get(index).setBasePrice(price);
+    public void updateAutoModelName(String key, String newModelName){
+        autos.get(key).setModelName(newModelName);
     }
+    public void updateAutoMaker(String key, String newMaker){
+        autos.get(key).setMaker(newMaker);
+    }
+    public void updateAutoBasePrice(String key, float newPrice){
+        autos.get(key).setBasePrice(newPrice);
+    }
+    /*public void updateAuto(String key, String maker, String modelName, float price){
+        autos.get(key).setMaker(maker);
+        autos.get(key).setModelName(modelName);
+        autos.get(key).setBasePrice(price);
+    }*/
 
     public String findAuto(String modelName){
         String key = null;
         //Boolean flag = false;
 
-        Map map = new HashMap();
-        Iterator iter = map.entrySet().iterator();
+        //Map map = new HashMap();
+        Iterator iter = autos.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry entry = (Map.Entry) iter.next();
             Automobile e = (Automobile) entry.getValue();
-            if(e.getModel() == modelName){
+            if(e.getModelName().equals(modelName)){
                 key = (String) entry.getKey();
                 break;
             }

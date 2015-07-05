@@ -15,7 +15,7 @@ class ModelExceptionHelper {
             case 105: break;
             case 107: break;
             case 109:
-                model.setName("Default name");
+                model.setModelName("Default name");
                 break;
         }
     }
