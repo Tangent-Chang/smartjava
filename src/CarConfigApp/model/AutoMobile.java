@@ -34,6 +34,9 @@ public class Automobile implements Serializable{
     }
 
     public List<OptionSet> getOptionsets(){ return optionsets;}
+    public void setOptionsets(List<OptionSet> optionsets){
+        this.optionsets = optionsets;
+    }
 
 
     public synchronized void setOption(int setIndex, String optName, float optPrice){

@@ -15,6 +15,9 @@ public class Fleet {
         autos = new LinkedHashMap<String, Automobile>();
     }
 
+    public Map<String, Automobile> getAutos(){
+        return autos;
+    }
     public Automobile getAuto(String key){
         return autos.get(key);
     }

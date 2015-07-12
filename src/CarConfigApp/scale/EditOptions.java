@@ -34,12 +34,12 @@ public class EditOptions implements Runnable {
             switch(func.getNo()){
                 case 01:
                     i = auto.findOptionsetByName(optionsetName);
-                    j = auto.findOptionByName(i,optionName);
+                    //j = auto.findOptionByName(i,optionName);
                     auto.updateOption(optionsetName, optionName, newOptionName, newOptionPrice);
                     break;
                 case 03:
                     i = auto.findOptionsetByName(optionsetName);
-                    j = auto.findOptionByName(i,optionName);
+                    //j = auto.findOptionByName(i,optionName);
                     auto.updateOption(optionsetName, optionName, newOptionName, newOptionPrice);
                     break;
                 case 05:

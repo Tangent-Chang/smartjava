@@ -6,6 +6,11 @@ import CarConfigApp.scale.EditOptions;
 import CarConfigApp.scale.FunctionCode;
 import CarConfigApp.util.FileIO;
 
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+
 /**
  * Created by Tangent Chang on 6/20/15.
  */
@@ -13,11 +18,24 @@ public abstract class ProxyAutomobile {
     private static Fleet fleetObj = new Fleet();
 
     public Fleet getFleet(){ return fleetObj;}
-    public void buildAuto(String fileName){
+
+    public void buildAuto(String fileName, int fileType){
         Automobile autoObj;
         try {
-            autoObj = FileIO.buildAutoObject(fileName);
-            fleetObj.setAuto(autoObj.getModelName(), autoObj);
+            switch(fileType){
+                case 1:  //previous text file
+                    autoObj = FileIO.buildAutoObject(fileName);
+                    fleetObj.setAuto(autoObj.getModelName(), autoObj);
+                    break;
+                case 2:  //properties file
+                    autoObj = new Automobile();
+                    Properties properObj = FileIO.buildWithProperty(fileName);
+                    autoObj.setModelName(properObj.getModelName());
+                    autoObj.setMaker(properObj.getMaker());
+                    autoObj.setOptionsets(properObj.getOptionsets());
+                    fleetObj.setAuto(autoObj.getModelName(), autoObj);
+                    break;
+            }
         }
         catch (AutoException e){
             e.printException();
@@ -45,30 +63,31 @@ public abstract class ProxyAutomobile {
         //edit.editOptions(fleetObj.getAuto(k), func, args);
     }
 
-    /*public void editModelName(String modelName, String newName){
-        EditOptions edit = new EditOptions();
-        edit.editModelName(fleetObj.getAuto(fleetObj.findAuto(modelName)), newName);
-    }
-    public void editModelBasePrice(String modelName, float newPrice){
-        EditOptions edit = new EditOptions();
-        edit.editModelBasePrice(fleetObj.getAuto(fleetObj.findAuto(modelName)), newPrice);
-    }
-    public void editOptionsetName(String modelName, String optionsetName, String newName){
-        EditOptions edit = new EditOptions();
-        String k = fleetObj.findAuto(modelName);
-        //int i = fleetObj.getAuto(k).findOptionsetByName(optionsetName);
-        edit.editOptionsetName(fleetObj.getAuto(k), optionsetName, newName);
-    }
-    public void editOptionName(String modelName, String optionsetName, String optionName, String newName){
-        EditOptions edit = new EditOptions();
-        String k = fleetObj.findAuto(modelName);
-        //int i = fleetObj.getAuto(k).findOptionsetByName(optionsetName);
-        //int j = fleetObj.getAuto(k).findOptionByName(i,optionName);
-        edit.editOptionName(fleetObj.getAuto(k),optionsetName, optionName, newName);
-    }
-    public void editOptionPrice(String modelName, String optionsetName, String optionName, float newPrice){
-        EditOptions edit = new EditOptions();
-        String k = fleetObj.findAuto(modelName);
-        edit.editOptionPrice(fleetObj.getAuto(k), optionsetName, optionName, newPrice);
+    /*public void buildWithProperty(Properties properObj){
+        Automobile autoObj = new Automobile();
+        //Properties properObj = FileIO.buildWithProperty(fileName);
+        //parse properties obj to auto obj
+        autoObj.setModelName(properObj.getModelName());
+        autoObj.setMaker(properObj.getMaker());
+        autoObj.setOptionsets(properObj.getOptionsets());
+
+        fleetObj.setAuto(autoObj.getModelName(), autoObj);
     }*/
+
+    public ArrayList<String> getModelList(){
+        ArrayList<String> nameList = new ArrayList<>();
+
+        Iterator iter = fleetObj.getAutos().entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            Automobile a = (Automobile) entry.getValue();
+            nameList.add(a.getModelName());
+        }
+        return nameList;
+    }
+    public void sendSelectedAuto(ObjectOutputStream out, String modelName){
+        String k = fleetObj.findAuto(modelName);
+        Automobile a = fleetObj.getAuto(k);
+        FileIO.serializeAuto(a);
+    }
 }

@@ -3,6 +3,7 @@ package CarConfigApp.util;
 import CarConfigApp.exception.AutoException;
 import CarConfigApp.exception.ModelError;
 import CarConfigApp.model.Automobile;
+import CarConfigApp.model.Properties;
 //import CarConfigApp.model.Option;
 
 import java.io.*;
@@ -94,6 +95,56 @@ public class FileIO {
             System.out.println("Error -- " + e.toString());
         }
         return model;
+    }
+
+    public static Properties buildWithProperty(String fileName){
+        Properties proper = new Properties();
+        try{
+            FileReader file = new FileReader(fileName);
+            BufferedReader buff = new BufferedReader(file);
+            boolean eof = false;
+
+            String line;
+            String optionsetName = null;
+            while(!eof){
+                line = buff.readLine();
+                if (line == null) {
+                    eof = true;
+                }
+                else{
+                    String[] property = line.split("=");
+
+                    if(!property[0].contains("Option")){ //means attributes
+                        switch(property[0]){
+                            case "CarModel":
+                                proper.setModelName(property[1]);
+                                break;
+                            case "CarMaker":
+                                proper.setMaker(property[1]);
+                                break;
+                        }
+                    }
+                    else{
+
+                        if(!property[0].contains("Value")){ //means option set
+                            //save optionset
+                            optionsetName = property[1];
+                            proper.setOptionset(optionsetName);
+                        }
+                        else{
+                            //use optionset name as key to save option
+                            proper.setOption(optionsetName, property[1], 0);
+                        }
+                    }
+
+                }
+            }
+        }
+        catch (IOException e) {
+            System.out.println("Error -- " + e.toString());
+        }
+
+        return proper;
     }
 
     public static void serializeAuto(Automobile car){

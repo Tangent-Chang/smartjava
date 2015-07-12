@@ -1,0 +1,8 @@
+CarModel=Prius
+CarMake=Toyota
+Option1=Transmission
+Option1ValueA=Manual
+Option1ValueB=Automatic
+Option2=Brakes
+Option2ValueA=Regular
+Option2ValueB=ABS
