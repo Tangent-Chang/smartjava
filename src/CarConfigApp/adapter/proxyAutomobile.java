@@ -28,11 +28,7 @@ public abstract class ProxyAutomobile {
                     fleetObj.setAuto(autoObj.getModelName(), autoObj);
                     break;
                 case 2:  //properties file
-                    autoObj = new Automobile();
-                    Properties properObj = FileIO.buildWithProperty(fileName);
-                    autoObj.setModelName(properObj.getModelName());
-                    autoObj.setMaker(properObj.getMaker());
-                    autoObj.setOptionsets(properObj.getOptionsets());
+                    autoObj = FileIO.buildWithProperty(fileName);
                     fleetObj.setAuto(autoObj.getModelName(), autoObj);
                     break;
             }

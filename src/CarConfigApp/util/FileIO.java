@@ -3,12 +3,11 @@ package CarConfigApp.util;
 import CarConfigApp.exception.AutoException;
 import CarConfigApp.exception.ModelError;
 import CarConfigApp.model.Automobile;
-import CarConfigApp.model.Properties;
-//import CarConfigApp.model.Option;
 
 import java.io.*;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Properties;
 
 /**
  * Created by Tangent Chang on 6/14/15.
@@ -97,54 +96,48 @@ public class FileIO {
         return model;
     }
 
-    public static Properties buildWithProperty(String fileName){
-        Properties proper = new Properties();
+    public static Automobile buildWithProperty(String fileName){
+        Automobile autoObj = new Automobile();
+        Properties properObj= new Properties();
+
         try{
-            FileReader file = new FileReader(fileName);
-            BufferedReader buff = new BufferedReader(file);
-            boolean eof = false;
+            FileInputStream in = new FileInputStream(fileName);
+            properObj.load(in);
 
-            String line;
-            String optionsetName = null;
-            while(!eof){
-                line = buff.readLine();
-                if (line == null) {
-                    eof = true;
-                }
-                else{
-                    String[] property = line.split("=");
+            autoObj.setModelName(properObj.getProperty("CarModel"));
+            properObj.remove("CarModel");
+            autoObj.setMaker(properObj.getProperty("CarMake"));
+            properObj.remove("CarMake");
+            autoObj.setBasePrice(Float.parseFloat(properObj.getProperty("CarPrice")));
+            properObj.remove("CarPrice");
 
-                    if(!property[0].contains("Option")){ //means attributes
-                        switch(property[0]){
-                            case "CarModel":
-                                proper.setModelName(property[1]);
-                                break;
-                            case "CarMaker":
-                                proper.setMaker(property[1]);
-                                break;
-                        }
+            int i=1;
+            String key = "Option";
+            while(!properObj.isEmpty()){
+                String optionsetName = properObj.getProperty(key+i);
+                autoObj.setOptionset(optionsetName);
+                properObj.remove(key+i);
+
+                int j=1;
+                while(properObj.containsKey(key + i + "Value" + j)){
+                    float optionPrice = 0;
+                    String optionName = properObj.getProperty(key+i+"Value"+j);
+                    properObj.remove(key+i+"Value"+j);
+                    if(properObj.containsKey(key+i+"Value"+j+"price")){
+                        optionPrice = Float.parseFloat(properObj.getProperty(key+i+"Value"+j+"price"));
+                        properObj.remove(key+i+"Value"+j+"price");
                     }
-                    else{
-
-                        if(!property[0].contains("Value")){ //means option set
-                            //save optionset
-                            optionsetName = property[1];
-                            proper.setOptionset(optionsetName);
-                        }
-                        else{
-                            //use optionset name as key to save option
-                            proper.setOption(optionsetName, property[1], 0);
-                        }
-                    }
-
+                    autoObj.setOption(optionsetName, optionName, optionPrice);
+                    j++;
                 }
+                i++;
             }
+            in.close();
         }
         catch (IOException e) {
             System.out.println("Error -- " + e.toString());
         }
-
-        return proper;
+        return autoObj;
     }
 
     public static void serializeAuto(Automobile car){

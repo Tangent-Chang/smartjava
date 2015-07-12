@@ -1,15 +1,11 @@
 package CarConfigApp.client;
 
 import CarConfigApp.adapter.BuildAuto;
-import CarConfigApp.model.Properties;
-import CarConfigApp.util.FileIO;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Properties;
 
 /**
  * Created by Tangnet Chang on 7/10/15.
@@ -23,14 +19,15 @@ public class CarModelOptionsIO {
     //a. Read data from the Properties file;
     //create properties object, using the load method, which transfers the object from the client to server, using ObjectStream.
     public void buildWithProperty(){
-        Properties properObj = FileIO.buildWithProperty("Properties.txt");
-
+        Properties properObj= new Properties();
         InetSocketAddress isa = new InetSocketAddress(this.serverAddress, this.serverPort);
         try {
+            FileInputStream in = new FileInputStream("car.properties");
+            properObj.load(in);
             client.connect(isa, 10000);
             OutputStream oos = client.getOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(oos);
-            out.writeObject(properObj);
+            out.writeObject(auto);
             out.close();
             //out.flush();
             out = null;

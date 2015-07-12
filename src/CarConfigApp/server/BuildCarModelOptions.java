@@ -1,14 +1,9 @@
 package CarConfigApp.server;
 
 import CarConfigApp.adapter.BuildAuto;
-import CarConfigApp.model.Automobile;
-import CarConfigApp.model.Properties;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
+
 import java.util.ArrayList;
 
 /**
@@ -16,7 +11,7 @@ import java.util.ArrayList;
  */
 public class BuildCarModelOptions implements IAutoServer{
     static private BuildAuto auto = null;
-    
+
     public ArrayList<String> getModelList(){
         ArrayList<String> list = new ArrayList<String>();
         if(auto != null){
