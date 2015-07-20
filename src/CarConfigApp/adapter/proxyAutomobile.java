@@ -6,10 +6,12 @@ import CarConfigApp.scale.EditOptions;
 import CarConfigApp.scale.FunctionCode;
 import CarConfigApp.util.FileIO;
 
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by Tangent Chang on 6/20/15.
@@ -59,16 +61,12 @@ public abstract class ProxyAutomobile {
         //edit.editOptions(fleetObj.getAuto(k), func, args);
     }
 
-    /*public void buildWithProperty(Properties properObj){
-        Automobile autoObj = new Automobile();
-        //Properties properObj = FileIO.buildWithProperty(fileName);
-        //parse properties obj to auto obj
-        autoObj.setModelName(properObj.getModelName());
-        autoObj.setMaker(properObj.getMaker());
-        autoObj.setOptionsets(properObj.getOptionsets());
-
+    public boolean buildWithProperty(Properties properObj){
+        Automobile autoObj = FileIO.parseProperties(properObj);
         fleetObj.setAuto(autoObj.getModelName(), autoObj);
-    }*/
+        System.out.println("build auto obj and add into fleet in ProxyAutomobile");
+        return true;
+    }
 
     public ArrayList<String> getModelList(){
         ArrayList<String> nameList = new ArrayList<>();
@@ -83,7 +81,16 @@ public abstract class ProxyAutomobile {
     }
     public void sendSelectedAuto(ObjectOutputStream out, String modelName){
         String k = fleetObj.findAuto(modelName);
-        Automobile a = fleetObj.getAuto(k);
-        FileIO.serializeAuto(a);
+        if(k != null){
+            Automobile a = fleetObj.getAuto(k);
+            try{
+                out.writeObject(a);
+            }
+            catch(IOException e){
+                System.out.print("Error: " + e);
+                System.exit(1);
+            }
+        }
+
     }
 }

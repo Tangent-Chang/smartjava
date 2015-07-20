@@ -1,8 +1,7 @@
 package CarConfigApp.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Tangent Chang on 6/14/15.
@@ -12,11 +11,11 @@ public class Automobile implements Serializable{
     private String modelName;
     private float basePrice;
     private List<OptionSet> optionsets;
-    private List<OptionSet.Option> choices;
+    private Map<String, OptionSet.Option> choices;
 
     public Automobile(){
         optionsets = new ArrayList<OptionSet>();
-        choices = new ArrayList<OptionSet.Option>();
+        choices = new HashMap<String, OptionSet.Option>();
     }
 
     public String getMaker(){ return maker;}
@@ -49,17 +48,17 @@ public class Automobile implements Serializable{
 
 
     public String getChoice(String setName){
-        int i = findOptionsetByName(setName);
-        return choices.get(i).getName();
+        //int i = findOptionsetByName(setName);
+        return choices.get(setName).getName();
     }
     public void setChoice(String setName, String optName){
         int i = findOptionsetByName(setName);
         int j = findOptionByName(i,optName);
-        choices.add(i, optionsets.get(i).getOption(j));
+        choices.put(setName, optionsets.get(i).getOption(j));
     }
     public float getChoicePrice(String setName){
-        int i = findOptionsetByName(setName);
-        return choices.get(i).getPrice();
+        //int i = findOptionsetByName(setName);
+        return choices.get(setName).getPrice();
     }
     public float getTotalPrice(){
         float sum = basePrice;
@@ -120,6 +119,39 @@ public class Automobile implements Serializable{
                 System.out.print(" "+optionsets.get(i).getOption(j).getName()+", "+optionsets.get(i).getOption(j).getPrice()+"\n");
             }
         }
+
+    }
+
+    public void makeChoice(){
+        boolean finish = false;
+
+        while(!finish){
+            //display all optionset names
+            for(OptionSet each : optionsets){
+                System.out.println(each.getName());
+            }
+            //receive user's optionset selection
+            Scanner userInput = new Scanner(System.in);
+            System.out.println("Choose option set: ");
+            String optionsetName = userInput.nextLine();
+
+            //display option set's available choice
+            OptionSet chosenOptionset = optionsets.get(findOptionsetByName(optionsetName));
+            for(OptionSet.Option each : chosenOptionset.getOptions()){
+                System.out.println(each.getName() + "--" + each.getPrice() );
+            }
+
+            //receive user's option value and save it
+            System.out.println("Choose option: ");
+            String optionName = userInput.nextLine();
+            setChoice(optionsetName, optionName);
+            System.out.println("option choice saved");
+
+            System.out.println("Are you done?");
+            if(userInput.nextLine().equals("yes")){ finish = true;}
+        }
+
+        System.out.println("configuration over");
 
     }
 }

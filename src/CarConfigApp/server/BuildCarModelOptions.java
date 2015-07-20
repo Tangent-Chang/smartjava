@@ -1,16 +1,25 @@
 package CarConfigApp.server;
 
 import CarConfigApp.adapter.BuildAuto;
+import CarConfigApp.util.FileIO;
 
 import java.io.ObjectOutputStream;
 
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * Created by Tangent Chang on 7/8/15.
  */
 public class BuildCarModelOptions implements IAutoServer{
-    static private BuildAuto auto = null;
+    static private BuildAuto auto = new BuildAuto();
+
+    public boolean buildWithProperty(Properties propObj){
+        if(auto.buildWithProperty(propObj)){
+            return true;
+        }
+        return false;
+    }
 
     public ArrayList<String> getModelList(){
         ArrayList<String> list = new ArrayList<String>();

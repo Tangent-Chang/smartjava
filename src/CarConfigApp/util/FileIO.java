@@ -97,14 +97,14 @@ public class FileIO {
     }
 
     public static Automobile buildWithProperty(String fileName){
-        Automobile autoObj = new Automobile();
+        Automobile autoObj = null;
         Properties properObj= new Properties();
 
         try{
             FileInputStream in = new FileInputStream(fileName);
             properObj.load(in);
 
-            autoObj.setModelName(properObj.getProperty("CarModel"));
+            /*autoObj.setModelName(properObj.getProperty("CarModel"));
             properObj.remove("CarModel");
             autoObj.setMaker(properObj.getProperty("CarMake"));
             properObj.remove("CarMake");
@@ -131,11 +131,46 @@ public class FileIO {
                     j++;
                 }
                 i++;
-            }
+            }*/
+            autoObj = parseProperties(properObj);
             in.close();
         }
         catch (IOException e) {
             System.out.println("Error -- " + e.toString());
+        }
+        return autoObj;
+    }
+
+    public static Automobile parseProperties(Properties properObj){
+        Automobile autoObj = new Automobile();
+
+        autoObj.setModelName(properObj.getProperty("CarModel"));
+        properObj.remove("CarModel");
+        autoObj.setMaker(properObj.getProperty("CarMake"));
+        properObj.remove("CarMake");
+        autoObj.setBasePrice(Float.parseFloat(properObj.getProperty("CarPrice")));
+        properObj.remove("CarPrice");
+
+        int i=1;
+        String key = "Option";
+        while(!properObj.isEmpty()) {
+            String optionsetName = properObj.getProperty(key + i);
+            autoObj.setOptionset(optionsetName);
+            properObj.remove(key + i);
+
+            int j = 1;
+            while (properObj.containsKey(key + i + "Value" + j)) {
+                float optionPrice = 0;
+                String optionName = properObj.getProperty(key + i + "Value" + j);
+                properObj.remove(key + i + "Value" + j);
+                if (properObj.containsKey(key + i + "Value" + j + "price")) {
+                    optionPrice = Float.parseFloat(properObj.getProperty(key + i + "Value" + j + "price"));
+                    properObj.remove(key + i + "Value" + j + "price");
+                }
+                autoObj.setOption(optionsetName, optionName, optionPrice);
+                j++;
+            }
+            i++;
         }
         return autoObj;
     }
